@@ -47,6 +47,7 @@ class stunnel(
     require => Package[$package],
     purge   => true,
     recurse => true,
+    notify  => Service[$service],
   }
 
   exec { 'enable stunnel':
@@ -60,7 +61,7 @@ class stunnel(
   service { $service:
     ensure     => running,
     enable     => true,
-    hasrestart => true,
+    stop       => 'pkill -15 stunnel4',
     hasstatus  => false,
   }
 }
